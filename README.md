@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📚 Smart Placement Preparation Tracker (SPT)
 
 ## 🎯 Project Overview
@@ -2718,3 +2719,7 @@ Remember: Success is not final, failure is not fatal—it is the courage to cont
 
 ---
 
+=======
+# Smart-Placement-Preperation-Tracker-SPT-
+It is a comprehensive, feature-rich web application designed to revolutionize campus placement preparation for students. 
+>>>>>>> c87466eb3e9f075acfb1869dd9b28fad3a7e9614

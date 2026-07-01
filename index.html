@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Placement Preparation Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>SPT</h1>
+                <span>Smart Placement Tracker</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" class="nav-link active" data-section="landing">Home</a></li>
+                <li><a href="#" class="nav-link" data-section="dashboard">Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-section="companies">Companies</a></li>
+                <li><a href="#" class="nav-link" data-section="learning">Learning</a></li>
+                <li><a href="#" class="nav-link" data-section="resources">Resources</a></li>
+                <li><a href="#" class="nav-link" data-section="quiz">Quiz</a></li>
+                <li><a href="#" class="nav-link" data-section="interview">Mock Interview</a></li>
+                <li><a href="#" class="nav-link" data-section="resume">Resume</a></li>
+                <li><a href="#" class="nav-link logout-link" id="logoutBtn">Logout</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <!-- Landing Page Section -->
+        <section id="landing" class="section active">
+            <div class="landing-content">
+                <h1 class="landing-title">Smart Placement Preparation Tracker</h1>
+                <p class="landing-subtitle">Your comprehensive platform for campus placement preparation</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Dashboard</h3>
+                        <p>Track your overall placement readiness with comprehensive metrics and progress indicators.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Companies</h3>
+                        <p>Explore company-specific interview rounds and preparation strategies.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Learning Topics</h3>
+                        <p>Organized learning resources across multiple categories to strengthen your fundamentals.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Quiz Engine</h3>
+                        <p>Test your knowledge with category-based quizzes and track your performance over time.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎤</div>
+                        <h3>Mock Interview</h3>
+                        <p>Practice with common interview questions and get tips for technical, HR, and behavioral rounds.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📄</div>
+                        <h3>Resume Checker</h3>
+                        <p>Get instant feedback on your resume quality and areas for improvement.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">�</div>
+                        <h3>Analytics</h3>
+                        <p>Track your progress with detailed charts and performance insights.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Resource Library</h3>
+                        <p>Access curated learning resources and bookmark your favorites.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h3>Profile</h3>
+                        <p>Manage your personal information and target companies.</p>
+                    </div>
+                </div>
+                <button class="cta-button" data-section="dashboard">Get Started</button>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section">
+            <div class="section-header">
+                <h2>Dashboard</h2>
+                <p>Your Placement Readiness Overview</p>
+            </div>
+            <div class="dashboard-content">
+                <div class="readiness-card">
+                    <h3>Overall Readiness</h3>
+                    <div class="readiness-indicator">
+                        <div class="circular-progress" id="readinessCircle">
+                            <svg class="progress-ring" width="200" height="200">
+                                <defs>
+                                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#00ffcc;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="progress-ring-circle-bg" cx="100" cy="100" r="90"></circle>
+                                <circle class="progress-ring-circle" cx="100" cy="100" r="90" id="readinessRing"></circle>
+                            </svg>
+                            <div class="progress-text">
+                                <span id="readinessPercentage">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">📝</div>
+                        <div class="metric-info">
+                            <h3 id="quizzesAttempted">0</h3>
+                            <p>Quizzes Attempted</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">⭐</div>
+                        <div class="metric-info">
+                            <h3 id="averageScore">0%</h3>
+                            <p>Average Score</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">✅</div>
+                        <div class="metric-info">
+                            <h3 id="topicsCompleted">0</h3>
+                            <p>Topics Completed</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🏢</div>
+                        <div class="metric-info">
+                            <h3 id="companiesExplored">0</h3>
+                            <p>Companies Explored</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-info">
+                            <h3 id="roundsPrepared">0</h3>
+                            <p>Rounds Prepared</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📄</div>
+                        <div class="metric-info">
+                            <h3 id="resumeScore">-</h3>
+                            <p>Latest Resume Score</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Companies Section -->
+        <section id="companies" class="section">
+            <div class="section-header">
+                <h2>Companies & Interview Rounds</h2>
+                <p>Explore company-specific preparation strategies</p>
+            </div>
+            <div class="companies-content" id="companiesContent">
+                <!-- Companies will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Learning Topics Section -->
+        <section id="learning" class="section">
+            <div class="section-header">
+                <h2>Learning Topics</h2>
+                <p>Track your learning progress across different categories</p>
+            </div>
+            <div class="learning-content" id="learningContent">
+                <!-- Learning topics will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section">
+            <div class="section-header">
+                <h2>Quiz Engine</h2>
+                <p>Test your knowledge and track your progress</p>
+            </div>
+            <div class="quiz-content">
+                <div id="quizSelection" class="quiz-selection">
+                    <h3>Select a Category</h3>
+                    <div class="category-buttons" id="categoryButtons">
+                        <!-- Category buttons will be dynamically loaded -->
+                    </div>
+                </div>
+                <div id="quizContainer" class="quiz-container hidden">
+                    <div class="quiz-header">
+                        <h3 id="quizCategoryName"></h3>
+                        <p>Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">0</span></p>
+                    </div>
+                    <div class="quiz-question" id="quizQuestion">
+                        <!-- Questions will be dynamically loaded -->
+                    </div>
+                    <div class="quiz-navigation">
+                        <button id="backToQuizSelection" class="btn-secondary">← Back</button>
+                        <div style="display: flex; gap: 1rem; flex: 1;">
+                            <button id="prevQuestion" class="btn-secondary">Previous</button>
+                            <button id="nextQuestion" class="btn-primary">Next</button>
+                            <button id="submitQuiz" class="btn-success hidden">Submit Quiz</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="quizResults" class="quiz-results hidden">
+                    <!-- Quiz results will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Mock Interview Section -->
+        <section id="interview" class="section">
+            <div class="section-header">
+                <h2>Mock Interview Practice</h2>
+                <p>Practice with common interview questions and improve your interview skills</p>
+            </div>
+            <div class="interview-content">
+                <div class="interview-selection">
+                    <h3>Select Interview Category</h3>
+                    <div class="interview-categories" id="interviewCategories">
+                        <!-- Categories will be dynamically loaded -->
+                    </div>
+                </div>
+                <div id="interviewContainer" class="interview-container hidden">
+                    <div class="interview-header">
+                        <div>
+                            <h3 id="interviewCategoryName"></h3>
+                            <p>Question <span id="interviewQuestionNum">1</span> of <span id="interviewTotalQuestions">0</span></p>
+                        </div>
+                        <div class="interview-timer" id="interviewTimer">
+                            <span id="timerDisplay">00:00</span>
+                            <button id="toggleTimer" class="btn-secondary">Start Timer</button>
+                        </div>
+                    </div>
+                    <div class="interview-question-card">
+                        <div class="interview-question">
+                            <h4 id="interviewQuestionText"></h4>
+                            <div class="question-tips" id="questionTips">
+                                <!-- Tips will be shown here -->
+                            </div>
+                        </div>
+                        <div class="interview-answer-section">
+                            <label for="interviewAnswer">Your Answer:</label>
+                            <textarea id="interviewAnswer" class="interview-textarea" placeholder="Type your answer here... (This is for practice, take your time)"></textarea>
+                            <div class="answer-actions">
+                                <button id="showSampleAnswer" class="btn-secondary">Show Sample Answer</button>
+                                <button id="showTips" class="btn-secondary">Show Tips</button>
+                            </div>
+                        </div>
+                        <div id="sampleAnswer" class="sample-answer hidden">
+                            <h5>Sample Answer:</h5>
+                            <div id="sampleAnswerContent"></div>
+                        </div>
+                        <div id="answerTips" class="answer-tips hidden">
+                            <h5>Answering Tips:</h5>
+                            <ul id="answerTipsList"></ul>
+                        </div>
+                    </div>
+                    <div class="interview-navigation">
+                        <button id="backToInterviewSelection" class="btn-secondary">← Back</button>
+                        <div style="display: flex; gap: 1rem; flex: 1;">
+                            <button id="prevInterviewQuestion" class="btn-secondary">Previous</button>
+                            <button id="nextInterviewQuestion" class="btn-primary">Next</button>
+                            <button id="finishInterview" class="btn-success hidden">Finish Practice</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="interviewSummary" class="interview-summary hidden">
+                    <!-- Interview practice summary will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Checker Section -->
+        <section id="resume" class="section">
+            <div class="section-header">
+                <h2>Resume Checker</h2>
+                <p>Get instant feedback on your resume quality and ATS compatibility</p>
+            </div>
+            <div class="resume-content">
+                <div class="resume-tabs">
+                    <button class="resume-tab active" data-tab="basic">Basic Check</button>
+                    <button class="resume-tab" data-tab="ats">ATS-Friendly Check</button>
+                </div>
+                <div class="resume-input-section">
+                    <div class="resume-upload-options">
+                        <div class="upload-option">
+                            <label for="resumeFile" class="file-upload-label">
+                                <span class="upload-icon">📄</span>
+                                <span class="upload-text">Upload Resume File</span>
+                                <span class="upload-hint">(PDF, DOC, DOCX, TXT, JPG, PNG)</span>
+                            </label>
+                            <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" class="file-input" />
+                            <div id="fileName" class="file-name"></div>
+                            <div id="uploadProgress" class="upload-progress hidden">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <p id="progressText">Processing...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea id="resumeText" class="resume-textarea hidden" placeholder="Extracted resume content will appear here..."></textarea>
+                    <div class="resume-buttons">
+                        <button id="checkResume" class="btn-primary">Check Resume</button>
+                        <button id="checkATS" class="btn-primary">Check ATS Compatibility</button>
+                    </div>
+                </div>
+                <div id="resumeResults" class="resume-results hidden">
+                    <!-- Resume check results will be displayed here -->
+                </div>
+                <div id="atsResults" class="ats-results hidden">
+                    <!-- ATS check results will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section-header">
+                <h2>Progress Analytics</h2>
+                <p>Track your preparation journey with detailed insights</p>
+            </div>
+            <div class="analytics-content">
+                <div class="analytics-overview">
+                    <div class="analytics-card">
+                        <h3>Study Streak</h3>
+                        <div class="streak-display">
+                            <span class="streak-number" id="studyStreak">0</span>
+                            <span class="streak-label">days</span>
+                        </div>
+                        <p id="streakMessage">Keep going!</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Total Study Time</h3>
+                        <div class="time-display">
+                            <span class="time-number" id="totalStudyTime">0</span>
+                            <span class="time-label">hours</span>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Weak Areas</h3>
+                        <div id="weakAreas" class="weak-areas-list">
+                            <p>Complete more quizzes to identify weak areas</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Achievements</h3>
+                        <div id="achievements" class="achievements-list">
+                            <!-- Achievements will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analytics-charts">
+                    <div class="chart-card">
+                        <h3>Quiz Performance Trend</h3>
+                        <canvas id="quizTrendChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Category-wise Performance</h3>
+                        <canvas id="categoryPerformanceChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Weekly Activity</h3>
+                        <canvas id="weeklyActivityChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Topic Completion Progress</h3>
+                        <div id="topicProgressBars" class="progress-bars-container">
+                            <!-- Progress bars will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-insights">
+                    <h3>Personalized Insights</h3>
+                    <div id="insightsList" class="insights-list">
+                        <!-- Insights will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="section">
+            <div class="section-header">
+                <h2>Resource Library</h2>
+                <p>Curated learning resources for your placement preparation</p>
+            </div>
+            <div class="resources-content">
+                <div class="resources-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="video">Videos</button>
+                    <button class="filter-btn" data-filter="audio">Audio/Podcasts</button>
+                    <button class="filter-btn" data-filter="article">Articles</button>
+                    <button class="filter-btn" data-filter="course">Courses</button>
+                    <button class="filter-btn" data-filter="book">Books</button>
+                    <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+                </div>
+                
+                <div class="resources-search">
+                    <input type="text" id="resourceSearch" class="form-input" placeholder="Search resources...">
+                </div>
+
+                <div class="resources-grid" id="resourcesGrid">
+                    <!-- Resources will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section">
+            <div class="section-header">
+                <h2>User Profile</h2>
+                <p>Manage your personal information</p>
+            </div>
+            <div class="profile-content">
+                <form id="profileForm" class="profile-form">
+                    <div class="form-group">
+                        <label for="profileName">Name</label>
+                        <input type="text" id="profileName" class="form-input" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileBranch">Branch</label>
+                        <input type="text" id="profileBranch" class="form-input" placeholder="e.g., Computer Science">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileYear">Year</label>
+                        <select id="profileYear" class="form-input">
+                            <option value="">Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileTargetCompanies">Target Companies (comma-separated)</label>
+                        <input type="text" id="profileTargetCompanies" class="form-input" placeholder="e.g., Google, Microsoft, Amazon">
+                    </div>
+                    <button type="submit" class="btn-primary">Save Profile</button>
+                </form>
+                <div id="profileSaved" class="success-message hidden">Profile saved successfully!</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module">
+        // Firebase Authentication Check
+        import { auth, onAuthStateChanged, signOut } from './js/firebase-config.js';
+        
+        // Check if user is logged in
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // User is not signed in, redirect to login
+                window.location.href = 'login.html';
+            } else {
+                // User is signed in, save to localStorage
+                localStorage.setItem('spt_logged_in', 'true');
+                const userData = {
+                    name: user.displayName || user.email.split('@')[0],
+                    email: user.email,
+                    uid: user.uid,
+                    photoURL: user.photoURL
+                };
+                localStorage.setItem('spt_user', JSON.stringify(userData));
+            }
+        });
+        
+        // Setup logout with Firebase
+        window.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    if (confirm('Are you sure you want to logout?')) {
+                        try {
+                            await signOut(auth);
+                            localStorage.removeItem('spt_logged_in');
+                            localStorage.removeItem('spt_user');
+                            window.location.href = 'login.html';
+                        } catch (error) {
+                            console.error('Logout Error:', error);
+                            alert('Failed to logout. Please try again.');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/companies.js"></script>
+    <script src="js/learning.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/mock-interview.js"></script>
+    <script src="js/resume.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
+    

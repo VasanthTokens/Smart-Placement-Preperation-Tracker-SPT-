@@ -1,0 +1,248 @@
+// Sign Up Page JavaScript with Firebase Authentication
+import {
+    auth,
+    googleProvider,
+    signInWithPopup,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged
+} from './firebase-config.js';
+
+// Check if user is already logged in
+onAuthStateChanged(auth, (user) => {
+    if (user && window.location.pathname.includes('signup.html')) {
+        // User is signed in, redirect to main app
+        window.location.href = 'index.html';
+    }
+});
+
+// Google Sign-Up
+document.getElementById('googleSignUp')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const btn = e.currentTarget;
+    btn.classList.add('loading');
+    btn.disabled = true;
+    
+    try {
+        // Configure Google provider with additional settings
+        googleProvider.setCustomParameters({
+            prompt: 'select_account'
+        });
+        
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        
+        // Save user data
+        const userData = {
+            name: user.displayName || 'User',
+            email: user.email,
+            loginMethod: 'google',
+            uid: user.uid,
+            photoURL: user.photoURL
+        };
+        
+        saveUserData(userData);
+        showSuccess('Account created successfully! Redirecting...');
+        
+        // Redirect to main app
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Google Sign-Up Error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+            showError('Sign-up cancelled');
+        } else if (error.code === 'auth/popup-blocked') {
+            showError('Popup blocked. Please allow popups for this site.');
+        } else if (error.code === 'auth/account-exists-with-different-credential') {
+            showError('An account already exists with this email');
+        } else if (error.code === 'auth/unauthorized-domain') {
+            showError('This domain is not authorized. Please add it to Firebase Console.');
+        } else if (error.code === 'auth/operation-not-allowed') {
+            showError('Google sign-in is not enabled. Please enable it in Firebase Console.');
+        } else if (error.code === 'auth/cancelled-popup-request') {
+            showError('Another popup is already open. Please close it and try again.');
+        } else {
+            showError(`Failed to sign up with Google: ${error.message}`);
+        }
+    }
+});
+
+// Email/Password Sign Up
+document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const btn = e.target.querySelector('.login-btn');
+    
+    // Validate inputs
+    if (!name || !email || !password || !confirmPassword) {
+        showError('Please fill in all fields');
+        return;
+    }
+    
+    if (!isValidEmail(email)) {
+        showError('Please enter a valid email address');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showError('Password must be at least 6 characters');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showError('Passwords do not match');
+        return;
+    }
+    
+    btn.classList.add('loading');
+    btn.disabled = true;
+    
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Save user data
+        const userData = {
+            name: name,
+            email: user.email,
+            loginMethod: 'email',
+            uid: user.uid
+        };
+        
+        saveUserData(userData);
+        showSuccess('Account created successfully! Redirecting...');
+        
+        // Redirect to main app
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Sign Up Error:', error);
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        
+        if (error.code === 'auth/email-already-in-use') {
+            showError('An account with this email already exists');
+        } else if (error.code === 'auth/weak-password') {
+            showError('Password is too weak. Please use a stronger password.');
+        } else if (error.code === 'auth/invalid-email') {
+            showError('Invalid email address');
+        } else if (error.code === 'auth/operation-not-allowed') {
+            showError('Email/Password sign-up is not enabled. Please contact support.');
+        } else {
+            showError('Failed to create account. Please try again.');
+        }
+    }
+});
+
+// Helper Functions
+function saveUserData(userData) {
+    // Save to localStorage
+    localStorage.setItem('spt_logged_in', 'true');
+    localStorage.setItem('spt_user', JSON.stringify(userData));
+    
+    // Save to profile
+    const profile = {
+        name: userData.name,
+        email: userData.email
+    };
+    localStorage.setItem('spt_profile', JSON.stringify(profile));
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function showError(message) {
+    // Create error notification
+    const notification = document.createElement('div');
+    notification.className = 'notification error';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(239, 68, 68, 0.9);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+        max-width: 350px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
+function showSuccess(message) {
+    // Create success notification
+    const notification = document.createElement('div');
+    notification.className = 'notification success';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 217, 168, 0.9);
+        color: #0a0a0a;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        font-weight: 600;
+        animation: slideIn 0.3s ease-out;
+        max-width: 350px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+    }, 2000);
+}
+
+// Add animation styles
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
